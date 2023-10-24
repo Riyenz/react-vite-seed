@@ -3,15 +3,39 @@ import '@/scss/styles.scss';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 
-import { SamplePage } from './pages/SamplePage';
+import { DefaultLayout } from './layouts/DefaultLayout';
+import { PostPage } from './pages/PostPage';
+import { PostsPage } from './pages/PostsPage';
 import store from './store';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SamplePage />,
+    element: <DefaultLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Navigate to="/posts" replace />,
+      },
+      {
+        path: '/posts',
+        element: <PostsPage />,
+      },
+      {
+        path: '/posts/:id',
+        element: <PostPage />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <Navigate to="/posts" replace />,
   },
 ]);
 
